@@ -3,9 +3,20 @@ package com.merabills.question3
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.metrics.performance.JankStats
+import com.merabills.question3.databinding.ActivityMainBinding
+import com.merabills.question3.ui.RowsAdapter
+import com.merabills.question3.ui.initializeUI
+import com.merabills.question3.ui.observeData
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicInteger
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +26,26 @@ class MainActivity : AppCompatActivity() {
     private val totalJankyFrames = AtomicInteger(0)
     //endregion
 
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel by viewModels<MainViewModel>()
+
+    private val rowAdapter by lazy {
+        RowsAdapter { squareItemData ->
+            viewModel.removeSquare(
+                squareItemData
+            )
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         // Your code goes here
+        binding.initializeUI(rowAdapter)
+        observeData(viewModel, binding, rowAdapter)
 
         //region Jank stats tracking - do not modify
         val totalJankyFramesLiveData = MutableLiveData(0)

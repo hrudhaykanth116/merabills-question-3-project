@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.merabills.question3.app-mergeDebugResources-35:/layout/item_square.xml",
+        "source": "com.merabills.question3.app-main-38:/layout/item_square.xml"
+    },
+    {
+        "merged": "com.merabills.question3.app-mergeDebugResources-35:/layout/item_row.xml",
+        "source": "com.merabills.question3.app-main-38:/layout/item_row.xml"
+    },
+    {
+        "merged": "com.merabills.question3.app-mergeDebugResources-35:/layout/activity_main.xml",
+        "source": "com.merabills.question3.app-main-38:/layout/activity_main.xml"
+    }
+]
